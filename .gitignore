@@ -5,6 +5,7 @@ node_modules/
 .sass-cache/
 infaux.php
 src/assets/css/
+src/assets/js/libs
 .settings/
 .buildpath
 .project
