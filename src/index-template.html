@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <!-- Prevent IE from going into compatibility mode -->
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <title>I <3 Norfolk</title>
+    <meta name="description" content="Description" />
+    <link rel="icon shortcut" type="image/x-icon" href="assets/img/favicon.ico" />
+    <meta property="og:site_name" content="OG Site Name" />
+    <meta property="og:url" content="/" />
+    <meta property="og:title" content="OG Title" />
+    <meta property="og:image" content="OG Image" />
+    <meta property="og:description" content="OG Description" />
+    <link rel="stylesheet" type="text/css" href="assets/css/styles.css{{#if use_cachebust}}?cache={{cachebust}}{{/if}}">
+    <script type="text/javascript">
+      // Prevent IE from erroring out from not having console support without the developer tools open
+      if (typeof console === "undefined" || typeof console.log === "undefined") {
+        console = {};
+        console.log = function () {};
+      }
+   	  // Set the base url to use for the api
+      var baseApiUrl = "{{base_api_url}}";
+    </script>
+  </head>
+
+  <body>
+    <div>Instagram</div>
+    <div class="instagram"></div>
+
+    <!-- Handlebars template for picking between dynamic vs pre-compiled js -->
+    {{#if use_appjs}}
+      <script src="assets/js/libs/requirejs/require.js"></script>
+      <script src="assets/js/app.min.js{{#if use_cachebust}}?cache={{cachebust}}{{/if}}"></script>
+    {{else}}
+      <script data-main="assets/js/main" src="assets/js/libs/requirejs/require.js"></script>
+    {{/if}}
+  </body>
+
+</html>
