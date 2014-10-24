@@ -1,0 +1,21 @@
+{
+  "name": "iheartnorfolk",
+  "version": "0.0.1",
+  "description": "An image feed of pictures of Norfolk",
+  "main": "index.js",
+  "scripts": {},
+  "repository": "",
+  "author": "Grow",
+  "devDependencies": {
+    "grunt-shell": "~0.3.1",
+    "grunt-contrib-copy": "~0.4.1",
+    "grunt-contrib-uglify": "~0.2.4",
+    "grunt-contrib-cssmin": "~0.6.1",
+    "handlebars": "~1.0.12",
+    "grunt": "0.4.x",
+    "grunt-contrib-sass": "latest",
+    "grunt-contrib-watch": "latest",
+    "grunt-contrib-jshint": "latest",
+    "grunt-contrib-requirejs": "latest"
+  }
+}

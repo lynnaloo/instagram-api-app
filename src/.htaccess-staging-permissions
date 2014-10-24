@@ -1,0 +1,4 @@
+AuthType Basic
+AuthName "dev"
+AuthUserFile /var/www/.htpasswd.staging
+Require valid-user
