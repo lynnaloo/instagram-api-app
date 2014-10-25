@@ -2,7 +2,7 @@ I <3 Norfolk
 =============
 
 ## Prerequisites
----------------------
+
 - This project (cloned from Github)
 - Webserver (e.g. Apache, Nginx) with a vhost pointed to the grow-template/src directory
 - Ruby
@@ -14,7 +14,7 @@ I <3 Norfolk
 
 
 ## Running the app
----------------------
+
 1.) In terminal, cd into grow-template/tools and type 'npm install' to install all grunt dependencies.
 
 2.) In the same directory (tools), type 'grunt watch' and leave terminal tab open with the grunt task running. It will watch your files for changes and perform sass, and handlebars compilation.

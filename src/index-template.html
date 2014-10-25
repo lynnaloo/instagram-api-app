@@ -22,12 +22,21 @@
       }
    	  // Set the base url to use for the api
       var baseApiUrl = "{{base_api_url}}";
+
     </script>
   </head>
 
   <body>
-    <div>Instagram</div>
-    <div class="instagram"></div>
+    <div class='container'>
+      <!-- Filter for photos -->
+      <form id='search'></form>
+
+      <div id='photo-list'></div>
+
+<!--        <div class='paginate'>
+        <a class='btn'  style='display:none;' data-max-tag-id='' href='#'>View More...</a>
+      </div>-->
+    </div>
 
     <!-- Handlebars template for picking between dynamic vs pre-compiled js -->
     {{#if use_appjs}}
