@@ -24,7 +24,7 @@ App.Config = {
       success: function (data) {
         $.each(data.data, function (i, item) {
           //if (item.user.id === id) {
-            image = {
+            var image = {
               userid: item.user.id,
               username: item.user.username,
               photo: item.images.low_resolution.url,
@@ -32,7 +32,7 @@ App.Config = {
               tags: item.tags
             };
             var img = '<img src=' + image.photo + ' width="250" height="250"/>';
-            $('#photo-list').append('<span class="photo">' + img + '</span>');
+            $('.container').append('<span class="photo">' + img + '</span>');
             $('.photo').fadeIn('slow');
           //}
         });

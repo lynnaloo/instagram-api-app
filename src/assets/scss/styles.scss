@@ -1,11 +1,120 @@
+// Google Font
+@import url(http://fonts.googleapis.com/css?family=Roboto:400italic,700italic,400,700);
+
+// fonts
+$font-stack: 'Roboto', sans-serif;
+
+// colors
+$background: rgb(40, 40, 46);
+$sidebar: rgb(44, 62, 80);
+$address: rgba(255, 254, 254, 0.3);
+$option: #fff;
+
+// font sizes
+$small: 12px;
+$medium: 16px;
+$large: 54px;
+
 html {
-  background: rgb(230,230,230);
+  height: 100%;
 }
 
-.photo {
-  width: "250px";
-  height: "250px";
-  display: none;
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background-color: $background;
+  font-family: $font-stack;
 }
+
+.header {
+  position: relative;
+  height: 120px;
+
+  .image {
+    position: absolute;
+    top: 40px;
+    height: 40px;
+    width: 40px;
+  }
+
+  .toggle {
+    @extend .image;
+    background: url(../img/toggle.png) no-repeat;
+    height: 20px;
+    width: 20px;
+    top: 50px;
+    left: 40px;
+  }
+
+  .logo {
+    @extend .image;
+    background: url(../img/logo.png) no-repeat;
+    left: 100px;
+    width: 312px;
+  }
+  .save {
+    @extend .image;
+    background: url(../img/save.png) no-repeat;
+    right: 40px;
+  }
+}
+
+.container {
+  position: relative;
+  .photo {
+    display: none;
+    width: 260px;
+    height: 260px;
+  }
+}
+
+.sidebar {
+  display: block;
+  position: absolute;
+  top: 120px;
+  left: 0;
+  width: 260px;
+  height: 100%;
+  background-color: $sidebar;
+  z-index: 99;
+
+  .options {
+    position: absolute;
+    top: 122px;
+    left: 22px;
+    .option {
+      position: relative;
+      margin-bottom: 31px;
+      height: 30px;
+      font-family: $font-stack;
+      color: $option;
+      font-size: $medium;
+      font-weight: 500;
+      background: url(../img/check-off.png) no-repeat;
+      padding-left: 41px;
+    }
+    .checked {
+      @extend .option;
+      background: url(../img/check-on.png) no-repeat;
+    }
+  }
+
+  .address {
+    position: absolute;
+    left: 40px;
+    bottom: 40px;
+    height: 48px;
+    font-family: $font-stack;
+    color: $address;
+    font-size: $small;
+    font-weight: 500;
+    line-height: 6px;
+  }
+}
+
+
+
+
 
 

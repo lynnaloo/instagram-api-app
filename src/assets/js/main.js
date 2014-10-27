@@ -10,6 +10,7 @@ require.config({
     }
 });
 
+
 require(['jquery', 'lodash'], function ($, _) {
 
   $(document).ready(function () {
@@ -28,7 +29,7 @@ require(['jquery', 'lodash'], function ($, _) {
       success: function (data) {
         $.each(data.data, function (i, item) {
           //if (item.user.id === id) {
-            image = {
+            var image = {
               userid: item.user.id,
               username: item.user.username,
               photo: item.images.low_resolution.url,
@@ -36,8 +37,8 @@ require(['jquery', 'lodash'], function ($, _) {
               tags: item.tags
             };
             var img = '<img src=' + image.photo + ' width="250" height="250"/>';
-            $('#photo-list').append('<span id="photo">' + img + '</span>');
-            $('#photo').fadeIn('slow');
+            $('.container').append('<span class="photo">' + img + '</span>');
+            $('.photo').fadeIn('slow');
           //}
         });
       },
