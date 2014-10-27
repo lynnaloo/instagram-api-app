@@ -63,9 +63,9 @@ body {
 .container {
   position: relative;
   .photo {
-    display: none;
     width: 260px;
     height: 260px;
+    opacity: 0.2;
   }
 }
 
@@ -86,16 +86,16 @@ body {
     .option {
       position: relative;
       margin-bottom: 31px;
+      padding-left: 41px;
       height: 30px;
       font-family: $font-stack;
       color: $option;
       font-size: $medium;
       font-weight: 500;
       background: url(../img/check-off.png) no-repeat;
-      padding-left: 41px;
+      cursor: pointer;
     }
     .checked {
-      @extend .option;
       background: url(../img/check-on.png) no-repeat;
     }
   }
@@ -112,9 +112,3 @@ body {
     line-height: 6px;
   }
 }
-
-
-
-
-
-
