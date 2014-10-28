@@ -8,7 +8,8 @@ $font-stack: 'Roboto', sans-serif;
 $background: rgb(40, 40, 46);
 $sidebar: rgb(44, 62, 80);
 $address: rgba(255, 254, 254, 0.3);
-$option: #fff;
+$white: #fff;
+$black: #000;
 
 // font sizes
 $small: 12px;
@@ -36,36 +37,61 @@ body {
     top: 40px;
     height: 40px;
     width: 40px;
-  }
-
-  .toggle {
-    @extend .image;
-    background: url(../img/toggle.png) no-repeat;
-    height: 20px;
-    width: 20px;
-    top: 50px;
-    left: 40px;
-  }
-
-  .logo {
-    @extend .image;
-    background: url(../img/logo.png) no-repeat;
-    left: 100px;
-    width: 312px;
-  }
-  .save {
-    @extend .image;
-    background: url(../img/save.png) no-repeat;
-    right: 40px;
+    &.toggle {
+      background: url(../img/toggle.png) no-repeat;
+      height: 20px;
+      width: 20px;
+      top: 50px;
+      left: 40px;
+    }
+    &.logo {
+      background: url(../img/logo.png) no-repeat;
+      left: 100px;
+      width: 312px;
+    }
+    &.save {
+      background: url(../img/save.png) no-repeat;
+      right: 40px;
+    }
   }
 }
 
 .container {
   position: relative;
-  .photo {
-    width: 260px;
-    height: 260px;
-    opacity: 0.2;
+  .tile-container {
+    display: inline-block;
+    .tile {
+      position: relative;
+      height: 260px;
+      width: 260px;
+      opacity: 0.1;
+      overflow: hidden;
+      -webkit-perspective: 1000;
+      -webkit-transform-style: preserve-3d;
+      .front, .back {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        -webkit-backface-visibility: hidden;
+        -webkit-transition: -webkit-transform 1s ease-in;
+      }
+      .back {
+        margin: 15px;
+        color: $white;
+        font-family: $font-stack;
+        font-size: $small;
+        opacity: 1;
+        -webkit-transform: rotateY(180deg);
+        &.flipped {
+          -webkit-transform: rotateY(0deg);
+        }
+      }
+      .front {
+        &.flipped {
+          -webkit-transform: rotateY(180deg);
+        }
+      }
+    }
   }
 }
 
@@ -89,7 +115,7 @@ body {
       padding-left: 41px;
       height: 30px;
       font-family: $font-stack;
-      color: $option;
+      color: $white;
       font-size: $medium;
       font-weight: 500;
       background: url(../img/check-off.png) no-repeat;
