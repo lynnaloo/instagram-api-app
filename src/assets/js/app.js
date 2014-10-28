@@ -44,7 +44,7 @@ var App = {};
   }
 
   function filterImages(data, filter) {
-    // TODO: implement sort
+    // TODO: implement sort by newest first
     if (filter !== 'all') {
       // TODO: lodash filter on tag
     }
