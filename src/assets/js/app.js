@@ -1,54 +1,57 @@
-var App = {};
 
 (function () {
-  function fetchPhotos(filter) {
-    var hash = filter,
-      // TODO: move to config
-      id = '23299063',
-      client = '4c1191c3ee9040b9968f432f2c977964',
-      count = 100,
-      url = 'https://api.instagram.com/v1/users/' + id + '/media/recent?client_id=' +
-        client + '&count=' + count;
+  function fetchPhotos() {
+    var baseUrl = 'https://api.instagram.com/v1/',
+      configs = {
+        id: '23299063',
+        client: '4c1191c3ee9040b9968f432f2c977964',
+        count: 50
+      };
 
-    $.ajax({
+    var norfolkva = $.ajax({
       method: "GET",
-      url: url,
+      url: baseUrl + 'tags/norfolkva/media/recent?client_id=' + configs.client + '&count=' + configs.count,
       dataType: "jsonp",
-      cache: false,
-      success: function (data) {
-        $('.container').empty();
-        var images = filterImages(data.data, filter);
-        $.each(images, function (i, item) {
-          var photo = createPhotoTile(item);
-          // add flip animation
-          // TODO: this is buggy
-          $('.tile').click(function () {
-            $(this).find('.front').addClass('flipped').mouseleave(function () {
-              $(this).removeClass('flipped');
-            });
-            $(this).find('.back').addClass('flipped').mouseleave(function () {
-              $(this).removeClass('flipped');
-            });
-            return false;
-          });
-          // add this photo to the photo container
-          $('.container').append(photo);
-        });
-        // animate photos once they're all loaded
-        $('.tile').fadeTo('slow', 1);
-      },
-      error: function (jqXHR, textStatus, errorThrown) {
-        console.log("There was a problem loading the images!");
-      }
+      cache: false
     });
-  }
+    var fieldguidenfk = $.ajax({
+      method: "GET",
+      url: baseUrl + 'tags/fieldguidenfk/media/recent?client_id=' + configs.client + '&count=' + configs.count,
+      dataType: "jsonp",
+      cache: false
+    });
+    var growinteractive = $.ajax({
+      method: "GET",
+      url: baseUrl + 'users/' + configs.id + '/media/recent?client_id=' + configs.client + '&count=' + configs.count,
+      dataType: "jsonp",
+      cache: false
+    });
 
-  function filterImages(data, filter) {
-    // TODO: implement sort by newest first
-    if (filter !== 'all') {
-      // TODO: lodash filter on tag
-    }
-    return data;
+    // empty the photo stream before fetching new photos
+    $('.content').empty();
+    $.when.apply($, [norfolkva, fieldguidenfk, growinteractive]).then(function () {
+      var union = _.flatten(_.map(arguments, function (item) { return item[0].data; }));
+      var unique = _.uniq(union, 'id');
+
+      _.each(unique, function (item) {
+        var photo = createPhotoTile(item);
+        // add this photo to the photo content div
+        $('.content').append(photo);
+      });
+      // add tile flip animation on click
+      $('.tile').click(function () {
+        $(this).find('.front, .back').addClass('flipped');
+        $(this).one('webkitTransitionEnd transitionend', function (event) {
+          $(this).one('click', function () {
+            $(this).find('.front, .back').removeClass('flipped');
+          });
+        });
+      });
+      // animate photos once they're all loaded
+      $('.tile').fadeTo('slow', 1);
+    }, function () {
+      console.log("Fetch of Instagram images has failed!");
+    });
   };
 
   function createPhotoTile(item){
@@ -70,19 +73,20 @@ var App = {};
         '<p>' + location + '</p>' +
         '<p>' + tags.join(" ") + '</p>';
 
-
     var tile = '<div class="front">' + img + '</div>' +
       '<div class="back">' + info + '</div>';
     return '<div class="tile-container"><div class="tile">' + tile + '</div></div>';
   }
 
-  // public functions
+  // public functions to expose to main and unit tests
   App = {
-    fetchPhotos: fetchPhotos
+    fetchPhotos: fetchPhotos,
+    filters: []
   };
 
   // prepare module
   if ( typeof define === "function" && define.amd ) {
     define( "app", [], function () { return App; } );
   }
+
 }());

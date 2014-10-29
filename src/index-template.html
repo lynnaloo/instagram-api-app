@@ -27,24 +27,28 @@
   </head>
 
   <body>
-    <div class='header'>
-      <div class='image toggle'></div>
-      <div class='image logo'></div>
-      <div class='image save'></div>
-    </div>
-    <div class='sidebar'>
-      <div class="options">
-        <div class='option'>NORFOLKVA</div>
-        <div class='option'>FIELDGUIDENFK</div>
-        <div class='option'>GROWINTERACTIVE</div>
+    <div class='container'>
+      <div class='sidebar'>
+        <div class="options">
+          <div class='option' title='norfolkva'>NORFOLKVA</div>
+          <div class='option' title='fieldguidenfk'>FIELDGUIDENFK</div>
+          <div class='option' title='growinteractive'>GROWINTERACTIVE</div>
+        </div>
+        <div class='address'>
+          <p>427 Granby Street
+          <p>Norfolk, VA 23462
+          <p>info@thisisgrow.com
+        </div>
       </div>
-      <div class='address'>
-        <p>427 Granby Street
-        <p>Norfolk, VA 23462
-        <p>info@thisisgrow.com
+      <div class='right'>
+        <div class='header'>
+          <div class='image toggle'></div>
+          <div class='image logo'></div>
+          <div class='image save'></div>
+        </div>
+        <div class='content'></div>
       </div>
     </div>
-    <div class='container'></div>
 
     <!-- Handlebars template for picking between dynamic vs pre-compiled js -->
     {{#if use_appjs}}

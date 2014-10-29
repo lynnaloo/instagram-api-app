@@ -55,6 +55,7 @@ module.exports = function(grunt) {
             assets: {
                 files: [
                     '<%= paths.assets %>js/main.js',
+                    '<%= paths.assets %>js/app.js',
                     '<%= paths.assets %>js/app/**/*.js',
                     '<%= paths.assets %>scss/**/*'
                 ],
