@@ -25,5 +25,12 @@ require(['jquery', 'lodash', 'app'], function ($, _, app) {
       var tag = $(this).attr("title"); // the title attr of the link is the hashtag
       app.fetchPhotos(tag);
     });
+    // when the toggle button is clicked, toggle icon and sidebar
+    $('.toggle').click(function () {
+      $('.sidebar').toggle(function () {
+      });
+        $('.right').toggleClass('open');
+        $(this).toggleClass('close');
+    });
   });
 });

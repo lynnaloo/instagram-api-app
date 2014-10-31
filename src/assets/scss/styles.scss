@@ -33,6 +33,7 @@ body {
 .container {
   position: relative;
   .sidebar {
+    display: none;
     position: absolute;
     width: $sidebar-width;
     left: 0;
@@ -72,8 +73,10 @@ body {
     }
   }
   .right {
+    &.open {
+      margin-left: $sidebar-width;
+    }
     position: relative;
-    margin-left: $sidebar-width;
     background-color: $background;
     .header {
       height: 120px;
@@ -85,11 +88,14 @@ body {
         margin-top: 40px;
         margin-left: 40px;
         &.toggle {
-          background: url(../img/toggle.png) no-repeat;
           height: 20px;
           width: 20px;
           margin-top: 0;
           vertical-align: 50%;
+          background: url(../img/toggle.png) no-repeat;
+          &.close {
+            background: url(../img/close.png) no-repeat;
+          }
         }
         &.logo {
           background: url(../img/logo.png) no-repeat;
