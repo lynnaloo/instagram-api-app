@@ -3,6 +3,8 @@
 
 // layout
 $sidebar-width: 260px;
+$tile-width: $sidebar-width;
+$tile-height: $tile-width;
 
 // fonts
 $font-stack: 'Roboto', sans-serif;
@@ -11,17 +13,18 @@ $font-stack: 'Roboto', sans-serif;
 $background: rgb(40, 40, 46);
 $sidebar: rgb(44, 62, 80);
 $address: rgba(255, 254, 254, 0.3);
+$red: rgb(234, 46, 73);
 $white: #fff;
 $black: #000;
+$link: $red;
 
 // font sizes
 $small: 12px;
 $medium: 16px;
 $large: 54px;
 
-html {
-  height: 100%;
-}
+// margins
+$default-margin: 40px;
 
 body {
   margin: 0;
@@ -30,8 +33,40 @@ body {
   font-family: $font-stack;
 }
 
-.container {
-  position: relative;
+a {
+  &:hover, &:link, &:active, &:visited {
+    color: $link;
+    text-decoration: none;
+  }
+}
+
+@-webkit-keyframes spinner {
+  from {
+    -webkit-transform: rotate(360deg);
+  }
+  to {
+    -webkit-transform: rotate(0deg);
+  }
+}
+
+.spinner {
+  display: none;
+  position: fixed;
+  height: 64px;
+  width: 64px;
+  top: 50%;
+  left: 50%;
+  margin-left: -32px;
+  margin-top: -23px;
+  text-align:center;
+  z-index: 1234;
+  overflow: auto;
+  background: url(../img/spinner.png) no-repeat;
+  -webkit-animation: spinner 1.3s linear infinite;
+}
+
+/*.container {
+  position: relative;*/
   .sidebar {
     display: none;
     position: absolute;
@@ -41,35 +76,35 @@ body {
     bottom: 0;
     background-color: $sidebar;
     .options {
-      position: relative;
-      top: 122px;
-      left: 22px;
+      margin-left: 22px;
+      margin-top: 122px;
       .option {
         position: relative;
-        margin-bottom: 31px;
-        padding-left: 41px;
-        height: 30px;
+        margin-bottom: 30px;
+        padding-left: 40px;
+        line-height: 30px;
         font-family: $font-stack;
         color: $white;
         font-size: $medium;
         font-weight: 500;
         background: url(../img/check-off.png) no-repeat;
         cursor: pointer;
-      }
-      .checked {
-        background: url(../img/check-on.png) no-repeat;
+        &.checked {
+          background: url(../img/check-on.png) no-repeat;
+        }
       }
     }
     .address {
       position: absolute;
-      left: 40px;
+      margin-left: 40px;
       bottom: 40px;
       height: 48px;
-      font-family: $font-stack;
+      width: 138px;
       color: $address;
+      font-family: $font-stack;
       font-size: $small;
       font-weight: 500;
-      line-height: 6px;
+      line-height: 0.5;
     }
   }
   .right {
@@ -85,8 +120,8 @@ body {
         display: inline-block;
         height: 40px;
         width: 40px;
-        margin-top: 40px;
-        margin-left: 40px;
+        margin-top: $default-margin;
+        margin-left: $default-margin;
         &.toggle {
           height: 20px;
           width: 20px;
@@ -104,7 +139,7 @@ body {
         &.save {
           float: right;
           background: url(../img/save.png) no-repeat;
-          margin-right: 40px;
+          margin-right: $default-margin;
         }
       }
     }
@@ -115,16 +150,17 @@ body {
         display: inline-block;
         .tile {
           position: relative;
-          height: 260px;
-          width: 260px;
+          height: $tile-width;
+          width: $tile-height;
           opacity: 0.1;
-          overflow: hidden;
           -webkit-perspective: 1000;
           -webkit-transform-style: preserve-3d;
           .front, .back {
+            img {
+              width: $tile-width;
+              height: $tile-height;
+            }
             position: absolute;
-            width: 100%;
-            height: 100%;
             -webkit-backface-visibility: hidden;
             -webkit-transition: -webkit-transform 1s ease-in;
           }
@@ -148,4 +184,4 @@ body {
       }
     }
   }
-}
+/*}*/
