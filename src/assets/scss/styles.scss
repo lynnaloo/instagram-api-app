@@ -26,6 +26,10 @@ $large: 54px;
 // margins
 $default-margin: 40px;
 
+html, body {
+  height: 100%;
+}
+
 body {
   margin: 0;
   padding: 0;
@@ -65,8 +69,9 @@ a {
   -webkit-animation: spinner 1.3s linear infinite;
 }
 
-/*.container {
-  position: relative;*/
+.container {
+  position: relative;
+  min-height: 100%;
   .sidebar {
     display: none;
     position: absolute;
@@ -79,9 +84,8 @@ a {
       margin-left: 22px;
       margin-top: 122px;
       .option {
-        position: relative;
         margin-bottom: 30px;
-        padding-left: 40px;
+        padding-left: $default-margin;
         line-height: 30px;
         font-family: $font-stack;
         color: $white;
@@ -96,7 +100,7 @@ a {
     }
     .address {
       position: absolute;
-      margin-left: 40px;
+      margin-left: $default-margin;
       bottom: 40px;
       height: 48px;
       width: 138px;
@@ -184,4 +188,4 @@ a {
       }
     }
   }
-/*}*/
+}
