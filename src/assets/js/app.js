@@ -116,16 +116,18 @@
       }),
       img = '<img src="' + photo + '"/>';
 
-    var info = '<p>' + truncate(caption, 75) + '</p>' +
-        '<p><a href="' + url + '" target="_blank">' + url + '</a></p>' +
-        '<p>' + created + ' ' + username + '</p>' +
-        '<p>' + location + '</p>' +
-        '<p>' + tags.join(" ") + '</p>' +
-        '<p>' + likes + '</p>';
+    var info = '<div class="info"><div>' + truncate(caption, 50) + '</div>' +
+        '<div><a href="' + url + '" target="_blank">' + url + '</a></div>' +
+        '<div>' + created + ' ' + username + '</div>' +
+        '<div>' + location + '</div>' +
+        '<div>' + truncate(tags.join(" "), 100) + '</div>' +
+        '<div>' + likes + '</p><div>';
 
     var tile = '<div class="front">' + img + '</div>' +
       '<div class="back">' + info + '</div>';
-    return '<div class="tile-container"><div class="tile">' + tile + '</div></div>';
+
+    var tileContainer = '<div class="tile-container"><div class="tile">' + tile + '</div></div>';
+    return tileContainer;
   };
 
   function truncate(text, maxLength) {

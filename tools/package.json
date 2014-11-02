@@ -1,9 +1,16 @@
 {
   "name": "iheartnorfolk",
   "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lynnaloo/iheartnorfolk.git"
+  },
+  "license": "MIT",
   "description": "An image feed of pictures of Norfolk",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "postinstall": "bower install"
+  },
   "repository": "",
   "author": "Grow",
   "devDependencies": {
@@ -13,6 +20,7 @@
     "grunt-contrib-cssmin": "~0.6.1",
     "handlebars": "~1.0.12",
     "grunt": "0.4.x",
+    "bower": "latest",
     "grunt-contrib-sass": "latest",
     "grunt-contrib-watch": "latest",
     "grunt-contrib-jshint": "latest",

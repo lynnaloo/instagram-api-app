@@ -169,8 +169,7 @@ module.exports = function(grunt) {
 
     //this task runs the handlebar template parser. if run locally, it puts the compiled file into src
     //if run for another environment, it puts the compiled file into build and removes the template file from build
-    grunt.registerMultiTask('preprocess-html', "Prepares the HTML file for staging or production mode.", function(){
-
+    grunt.registerMultiTask('preprocess-html', "Prepares the HTML file for staging or production mode.", function () {
         var self = this;
         var dir = (this.target === "local") ? "../src/" : config.paths.build;
         config.templates.forEach(function(template, index, arr) {

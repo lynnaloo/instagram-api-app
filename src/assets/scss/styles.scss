@@ -1,15 +1,20 @@
-// Google Font
+/* Google Fonts */
 @import url(http://fonts.googleapis.com/css?family=Roboto:400italic,700italic,400,700);
 
-// layout
+/* Layout */
 $sidebar-width: 260px;
 $tile-width: $sidebar-width;
 $tile-height: $tile-width;
 
-// fonts
+/* Margins */
+$default-margin: 40px;
+$default-height: $default-margin;
+$default-width: $default-height;
+
+/* Fonts */
 $font-stack: 'Roboto', sans-serif;
 
-// colors
+/* Colors */
 $background: rgb(40, 40, 46);
 $sidebar: rgb(44, 62, 80);
 $address: rgba(255, 254, 254, 0.3);
@@ -18,13 +23,10 @@ $white: #fff;
 $black: #000;
 $link: #2a5db0;
 
-// font sizes
+/* Font Sizes */
 $small: 12px;
 $medium: 16px;
 $large: 54px;
-
-// margins
-$default-margin: 40px;
 
 html, body {
   height: 100%;
@@ -104,9 +106,9 @@ a {
     .address {
       position: absolute;
       margin-left: $default-margin;
-      bottom: 40px;
-      height: 48px;
-      width: 138px;
+      bottom: $default-margin;
+      height: $default-height;
+      width: $default-width;
       color: $address;
       font-family: $font-stack;
       font-size: $small;
@@ -120,15 +122,20 @@ a {
     }
     position: relative;
     background-color: $background;
+
     .header {
       height: 120px;
       width: 100%;
       .image {
         display: inline-block;
-        height: 40px;
-        width: 40px;
+        height: $default-height;
+        width: $default-width;
         margin-top: $default-margin;
         margin-left: $default-margin;
+        &.logo {
+          background: url(../img/logo.png) no-repeat;
+          width: 312px;
+        }
         &.toggle {
           height: 20px;
           width: 20px;
@@ -138,51 +145,65 @@ a {
           &.close {
             background: url(../img/close.png) no-repeat;
           }
-        }
-        &.logo {
-          background: url(../img/logo.png) no-repeat;
-          width: 312px;
+          &:hover {
+            opacity: 0.5;
+            -webkit-transition: -webkit-transform 1s ease-in;
+          }
         }
         &.save {
           float: right;
           background: url(../img/save.png) no-repeat;
           margin-right: $default-margin;
+          &:hover {
+            opacity: 0.5;
+            -webkit-transition: -webkit-transform 1s ease-in;
+          }
         }
       }
     }
+
     .content {
       width: 100%;
       position: relative;
       .tile-container {
         display: inline-block;
         .tile {
-          position: relative;
           height: $tile-width;
           width: $tile-height;
           opacity: 0.1;
           -webkit-perspective: 1000;
           -webkit-transform-style: preserve-3d;
           .front, .back {
-            img {
-              width: $tile-width;
-              height: $tile-height;
-            }
             position: absolute;
+            width: 100%;
+            height: 100%;
             -webkit-backface-visibility: hidden;
             -webkit-transition: -webkit-transform 1s ease-in;
           }
           .back {
-            margin: 15px;
-            color: $white;
-            font-family: $font-stack;
-            font-size: $small;
-            opacity: 1;
+            margin: 10px;
+            .info {
+              div {
+                margin-bottom: 10px;
+              }
+              width: $tile-width - 10px;
+              height: $tile-width - 10px;
+              color: $white;
+              font-family: $font-stack;
+              font-size: $small;
+              opacity: 1;
+              overflow: hidden;
+            }
             -webkit-transform: rotateY(180deg);
             &.flipped {
               -webkit-transform: rotateY(0deg);
             }
           }
           .front {
+            img {
+              width: 100%;
+              height: 100%;
+            }
             &.flipped {
               -webkit-transform: rotateY(180deg);
             }
@@ -190,8 +211,9 @@ a {
         }
       }
     }
+
     .footer {
-      height: 40px;
+      height: $default-height;
       .more-images {
         display: none;
         margin-right: $default-margin;
