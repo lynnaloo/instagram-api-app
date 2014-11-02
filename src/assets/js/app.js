@@ -18,13 +18,14 @@
     };
 
   function filterTags(tag) {
-    if (!tag) { return }
+    if (!tag) { return; }
     selectedTags[tag] = !selectedTags[tag];
   };
 
-  function fetchPhotos(tag, callback) {
+  function fetchPhotos(tag) {
     filterTags(tag);
-    var defers = _.map(selectedTags, function (selected, key) {
+    var filtered = _.omit(selectedTags, function (selected) { return !selected; });
+    var defers = _.map(filtered, function (selected, key) {
         var ajax = $.ajax({
           method: "GET",
           url: tags[key] + '&count=' + configs.count,
@@ -38,16 +39,29 @@
     // show loading image
     $('.spinner').show();
     $.when.apply($, defers).then(function () {
-      var union = _.flatten(_.map(arguments, function (item) {
-        return item[0].data;
-      }));
+      var union = [];
+      _.each(arguments, function (item) {
+        if (item.data) {
+          union.push(item.data);
+          return;
+        }
+        if (item[0] && item[0].data) {
+          union.push(item[0].data);
+          return;
+        }
+      });
+      union = _.flatten(union);
+      // only get unique photos
       var unique = _.uniq(union, 'id');
-      _.each(unique, function (item) {
+      // sort photos descending by time
+      var sorted = _.sortBy(unique, function (item){
+        return item.created_time * -1;
+      });
+      _.each(sorted, function (item) {
         var photo = createPhotoTile(item);
         // add this photo to the photo content div
         $('.content').append(photo);
       });
-      // TODO: sort
       // add tile flip animation on click
       $('.tile').click(function () {
         $(this).find('.front, .back').addClass('flipped');

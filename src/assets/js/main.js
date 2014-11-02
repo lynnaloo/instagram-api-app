@@ -22,8 +22,8 @@ require(['jquery', 'lodash', 'app'], function ($, _, app) {
     // when any of the options are clicked
     // fetch the pictures with the new hashtag
     $('.option').click(function () {
-      app.fetchPhotos(tag);
       var tag = $(this).attr('title'); // the title attr of the link is the hashtag
+      app.fetchPhotos(tag);
       $(this).toggleClass('checked'); // toggle the checked class
     });
     // when the toggle button is clicked, toggle icon and sidebar
