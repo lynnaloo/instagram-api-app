@@ -16,7 +16,7 @@ $address: rgba(255, 254, 254, 0.3);
 $red: rgb(234, 46, 73);
 $white: #fff;
 $black: #000;
-$link: $red;
+$link: #2a5db0;
 
 // font sizes
 $small: 12px;
@@ -41,6 +41,9 @@ a {
   &:hover, &:link, &:active, &:visited {
     color: $link;
     text-decoration: none;
+  }
+  &:hover {
+    opacity: 0.7;
   }
 }
 
@@ -185,6 +188,10 @@ a {
             }
           }
         }
+      }
+    }
+    .footer {
+      .more-images {
       }
     }
   }

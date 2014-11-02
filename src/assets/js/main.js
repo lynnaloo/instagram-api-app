@@ -33,5 +33,9 @@ require(['jquery', 'lodash', 'app'], function ($, _, app) {
         $('.toggle').toggleClass('close'); // toggle the close/menu icon
       });
     });
+    // when the more images link is clicked, fetch again with the next_max_id
+    $('.more-images').click(function () {
+      app.fetchPhotos(null, true);
+    });
   });
 });

@@ -3,13 +3,17 @@
   var baseUrl = 'https://api.instagram.com/v1/',
     configs = {
       id: '23299063',
-      client: '4c1191c3ee9040b9968f432f2c977964',
-      count: 50
+      client: '4c1191c3ee9040b9968f432f2c977964'
     },
     tags = {
       'norfolkva': baseUrl + 'tags/norfolkva/media/recent?client_id=' + configs.client,
       'fieldguidenfk': baseUrl + 'tags/fieldguidenfk/media/recent?client_id=' + configs.client,
       'growinteractive': baseUrl + 'users/' + configs.id + '/media/recent?client_id=' + configs.client
+    },
+    pagination = {
+      'norfolkva': null,
+      'fieldguidenfk': null,
+      'growinteractive': null
     },
     selectedTags = {
       'norfolkva': true,
@@ -22,15 +26,20 @@
     selectedTags[tag] = !selectedTags[tag];
   };
 
-  function fetchPhotos(tag) {
+  function fetchPhotos(tag, next) {
     filterTags(tag);
     var filtered = _.omit(selectedTags, function (selected) { return !selected; });
     var defers = _.map(filtered, function (selected, key) {
+        var url = tags[key];
+        if (next) {
+          url = pagination[key];
+        }
         var ajax = $.ajax({
           method: "GET",
-          url: tags[key] + '&count=' + configs.count,
+          url: url,
           dataType: "jsonp",
-          cache: false
+          cache: false,
+          context: { tag: key } // keep track of the tag in the response
         });
         return ajax;
       });
@@ -40,16 +49,19 @@
     $('.spinner').show();
     $.when.apply($, defers).then(function () {
       var union = [];
-      _.each(arguments, function (item) {
+      _.each(arguments, function (item, i) {
+        var maxId;
         if (item.data) {
+          pagination[this.tag] = item.pagination.next_url;
           union.push(item.data);
           return;
         }
         if (item[0] && item[0].data) {
+          pagination[this[i].tag] = item[0].pagination.next_url;
           union.push(item[0].data);
           return;
         }
-      });
+      }, this);
       union = _.flatten(union);
       // only get unique photos
       var unique = _.uniq(union, 'id');
@@ -92,17 +104,25 @@
       }),
       img = '<img src="' + photo + '"/>';
 
-    var info = '<p>' + caption + '</p>' +
+    var info = '<p>' + truncate(caption, 75) + '</p>' +
+        '<p><a href="' + url + '" target="_blank">' + url + '</a></p>' +
         '<p>' + created + ' ' + username + '</p>' +
-        '<p>' + likes + '</p>' +
         '<p>' + location + '</p>' +
         '<p>' + tags.join(" ") + '</p>' +
-        '<p><a href="' + url + '" target="_blank">' + url + '</a></p>';
+        '<p>' + likes + '</p>';
 
     var tile = '<div class="front">' + img + '</div>' +
       '<div class="back">' + info + '</div>';
     return '<div class="tile-container"><div class="tile">' + tile + '</div></div>';
   };
+
+  function truncate(text, maxLength) {
+    var result = text;
+    if (result.length > maxLength) {
+      result = result.substr(0, maxLength - 3) + "...";
+    }
+    return result;
+  }
 
   // public functions to expose to main and unit tests
   App = {
