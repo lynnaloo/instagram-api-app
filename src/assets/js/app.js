@@ -1,6 +1,7 @@
 
 (function () {
   var baseUrl = 'https://api.instagram.com/v1/',
+    showMoreLink,
     configs = {
       id: '23299063',
       client: '4c1191c3ee9040b9968f432f2c977964'
@@ -28,12 +29,15 @@
 
   function fetchPhotos(tag, next) {
     filterTags(tag);
+    var showMore = false;
     var filtered = _.omit(selectedTags, function (selected) { return !selected; });
-    var defers = _.map(filtered, function (selected, key) {
-        var url = tags[key];
-        if (next) {
-          url = pagination[key];
-        }
+    var defers = [];
+    _.each(filtered, function (selected, key) {
+      var url = tags[key];
+      if (next) {
+        url = pagination[key];
+      }
+      if (url) {
         var ajax = $.ajax({
           method: "GET",
           url: url,
@@ -41,10 +45,12 @@
           cache: false,
           context: { tag: key } // keep track of the tag in the response
         });
-        return ajax;
-      });
+        defers.push(ajax);
+      }
+    });
     // empty the photo stream before fetching new photos
     $('.content').empty();
+    $('.more-images').toggle(false);
     // show loading image
     $('.spinner').show();
     $.when.apply($, defers).then(function () {
@@ -52,12 +58,16 @@
       _.each(arguments, function (item, i) {
         var maxId;
         if (item.data) {
+          // if there are no more results, this will be undefined
           pagination[this.tag] = item.pagination.next_url;
+          if (pagination[this.tag]) { showMore = true; }
           union.push(item.data);
           return;
         }
         if (item[0] && item[0].data) {
+          // if there are no more results, this will be undefined
           pagination[this[i].tag] = item[0].pagination.next_url;
+          if (pagination[this[i].tag]) { showMore = true; }
           union.push(item[0].data);
           return;
         }
@@ -83,6 +93,8 @@
           });
         });
       });
+      // visibility of more link
+      $('.more-images').toggle(showMore);
       // animate photos once they're all loaded
       $('.tile').fadeTo('slow', 1);
       $('.spinner').hide();

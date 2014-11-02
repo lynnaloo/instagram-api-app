@@ -191,7 +191,11 @@ a {
       }
     }
     .footer {
+      height: 40px;
       .more-images {
+        display: none;
+        margin-right: $default-margin;
+        float: right;
       }
     }
   }
