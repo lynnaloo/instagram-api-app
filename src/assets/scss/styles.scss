@@ -58,7 +58,7 @@ a {
   }
 }
 
-.spinner {
+#spinner {
   display: none;
   position: fixed;
   height: 64px;
@@ -74,10 +74,10 @@ a {
   -webkit-animation: spinner 1.3s linear infinite;
 }
 
-.container {
+#container {
   position: relative;
   min-height: 100%;
-  .sidebar {
+  #sidebar {
     display: none;
     position: absolute;
     width: $sidebar-width;
@@ -108,7 +108,6 @@ a {
       margin-left: $default-margin;
       bottom: $default-margin;
       height: $default-height;
-      width: $default-width;
       color: $address;
       font-family: $font-stack;
       font-size: $small;
@@ -116,14 +115,14 @@ a {
       line-height: 0.5;
     }
   }
-  .right {
+  #right {
     &.open {
       margin-left: $sidebar-width;
     }
     position: relative;
     background-color: $background;
 
-    .header {
+    #header {
       height: 120px;
       width: 100%;
       .image {
@@ -162,7 +161,7 @@ a {
       }
     }
 
-    .content {
+    #content {
       width: 100%;
       position: relative;
       .tile-container {
@@ -212,7 +211,7 @@ a {
       }
     }
 
-    .footer {
+    #footer {
       height: $default-height;
       .more-images {
         display: none;

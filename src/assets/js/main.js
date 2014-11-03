@@ -28,8 +28,8 @@ require(['jquery', 'lodash', 'app'], function ($, _, app) {
     });
     // when the toggle button is clicked, toggle icon and sidebar
     $('.toggle').click(function () {
-      $('.sidebar').toggle('fast', function () {
-        $('.right').toggleClass('open'); // toggle the margin class
+      $('#sidebar').toggle('fast', function () {
+        $('#right').toggleClass('open'); // toggle the margin class
         $('.toggle').toggleClass('close'); // toggle the close/menu icon
       });
     });

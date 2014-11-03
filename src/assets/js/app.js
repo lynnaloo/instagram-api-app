@@ -1,15 +1,13 @@
-
 (function () {
   var baseUrl = 'https://api.instagram.com/v1/',
-    showMoreLink,
-    configs = {
+    config = {
       id: '23299063',
       client: '4c1191c3ee9040b9968f432f2c977964'
     },
     tags = {
-      'norfolkva': baseUrl + 'tags/norfolkva/media/recent?client_id=' + configs.client,
-      'fieldguidenfk': baseUrl + 'tags/fieldguidenfk/media/recent?client_id=' + configs.client,
-      'growinteractive': baseUrl + 'users/' + configs.id + '/media/recent?client_id=' + configs.client
+      'norfolkva': baseUrl + 'tags/norfolkva/media/recent?client_id=' + config.client,
+      'fieldguidenfk': baseUrl + 'tags/fieldguidenfk/media/recent?client_id=' + config.client,
+      'growinteractive': baseUrl + 'users/' + config.id + '/media/recent?client_id=' + config.client
     },
     pagination = {
       'norfolkva': null,
@@ -22,124 +20,139 @@
       'growinteractive': true
     };
 
+  /**
+   * @private
+   */
   function filterTags(tag) {
     if (!tag) { return; }
     selectedTags[tag] = !selectedTags[tag];
-  };
+  }
+
+  function getSelectedTags () {
+    return _.keys(_.pick(selectedTags, _.identity));
+  }
 
   function fetchPhotos(tag, next) {
     filterTags(tag);
-    var showMore = false;
-    var filtered = _.omit(selectedTags, function (selected) { return !selected; });
-    var defers = [];
-    _.each(filtered, function (selected, key) {
-      var url = tags[key];
-      if (next) {
-        url = pagination[key];
-      }
+    var defers = _.compact(_.map(getSelectedTags(), function (key) {
+      var url = (next ? pagination : tags)[key];
       if (url) {
-        var ajax = $.ajax({
+        return $.ajax({
           method: "GET",
           url: url,
           dataType: "jsonp",
           cache: false,
           context: { tag: key } // keep track of the tag in the response
         });
-        defers.push(ajax);
       }
-    });
+    }));
+    defers.push(new $.Deferred().resolve());
     // empty the photo stream before fetching new photos
-    $('.content').empty();
-    $('.more-images').toggle(false);
+    $('#content').empty();
+    $('.more-images').hide();
     // show loading image
-    $('.spinner').show();
+    $('#spinner').show();
     $.when.apply($, defers).then(function () {
-      var union = [];
-      _.each(arguments, function (item, i) {
-        var maxId;
-        if (item.data) {
-          // if there are no more results, this will be undefined
-          pagination[this.tag] = item.pagination.next_url;
-          if (pagination[this.tag]) { showMore = true; }
-          union.push(item.data);
-          return;
-        }
-        if (item[0] && item[0].data) {
-          // if there are no more results, this will be undefined
-          pagination[this[i].tag] = item[0].pagination.next_url;
-          if (pagination[this[i].tag]) { showMore = true; }
-          union.push(item[0].data);
-          return;
-        }
-      }, this);
-      union = _.flatten(union);
-      // only get unique photos
-      var unique = _.uniq(union, 'id');
-      // sort photos descending by time
-      var sorted = _.sortBy(unique, function (item){
-        return item.created_time * -1;
-      });
-      _.each(sorted, function (item) {
-        var photo = createPhotoTile(item);
-        // add this photo to the photo content div
-        $('.content').append(photo);
-      });
-      // add tile flip animation on click
-      $('.tile').click(function () {
-        $(this).find('.front, .back').addClass('flipped');
-        $(this).one('webkitTransitionEnd transitionend', function (event) {
-          $(this).one('click', function () {
-            $(this).find('.front, .back').removeClass('flipped');
-          });
-        });
-      });
-      // visibility of more link
+      var sorted = _.chain(arguments)
+        .initial()
+        .pluck('0')
+        .map(function (item, i) {
+          pagination[this[i].tag] = item.pagination.next_url;
+          return item.data;
+        }, this)
+        .flatten()
+        .compact()
+        .unique('id')
+        .sortBy('created_time')
+        .value()
+        .reverse();
+
+      _.each(sorted, createPhotoTile);
+
+      var showMore = _.any(_.pick(pagination, getSelectedTags()));
       $('.more-images').toggle(showMore);
       // animate photos once they're all loaded
       $('.tile').fadeTo('slow', 1);
-      $('.spinner').hide();
+      $('#spinner').hide();
     }, function () {
       console.log("Fetch of Instagram images has failed!");
     });
   };
 
+  /**
+   * @private
+   */
   function createPhotoTile(item){
-    var username = '@' + item.user.username,
-      photo = item.images.low_resolution.url,
-      url = item.link,
-      location = item.location ? item.location.name || '' : '',
-      likes = item.likes.count + ' likes',
-      created = item.created_time ? new Date(item.created_time * 1000).toLocaleDateString() : '',
-      caption = item.caption ? item.caption.text || '' : '',
-      tags = _.map(item.tags, function (tag) {
-        return '#' + tag;
-      }),
-      img = '<img src="' + photo + '"/>';
-
-    var info = '<div class="info"><div>' + truncate(caption, 50) + '</div>' +
-        '<div><a href="' + url + '" target="_blank">' + url + '</a></div>' +
-        '<div>' + created + ' ' + username + '</div>' +
-        '<div>' + location + '</div>' +
-        '<div>' + truncate(tags.join(" "), 100) + '</div>' +
-        '<div>' + likes + '</p><div>';
-
-    var tile = '<div class="front">' + img + '</div>' +
-      '<div class="back">' + info + '</div>';
-
-    var tileContainer = '<div class="tile-container"><div class="tile">' + tile + '</div></div>';
-    return tileContainer;
+    var tile = new Tile(item);
+    tile.render();
+    tile.bindHandlers();
   };
 
+  /**
+   * @private
+   */
   function truncate(text, maxLength) {
-    var result = text;
-    if (result.length > maxLength) {
-      result = result.substr(0, maxLength - 3) + "...";
+    if (text.length > maxLength) {
+      return text.slice(0, maxLength) + '...';
     }
-    return result;
+    return text;
   }
 
+  function Tile (item) {
+    this.username = '@' + item.user.username;
+    this.photo = item.images.low_resolution.url;
+    this.url = item.link;
+    this.location = _.result(item.location, 'name') || '';
+    this.likes = item.likes.count + ' likes';
+    this.created = item.created_time ? new Date(item.created_time * 1000).toLocaleDateString() : '';
+    this.caption = truncate(_.result(item.caption, 'text') || '', 75);
+      // limit to 10 tags, join on # to create string
+    this.tags = _.map(_.first(item.tags, 10), function (tag) { return '#' + tag; }).join(' ');
+  }
+
+  Tile.prototype.render = function () {
+    // add photo tile to the content section
+    // TODO make quotes consistent (double -> single)
+    this.element = $('<div/>').addClass("tile-container").append(
+      $('<div/>').addClass("tile")
+      .append(
+        $('<div/>').addClass("front")
+          .append($('<img/>').attr({ src: this.photo, title: "image", alt: this.url }))
+      )
+      .append(
+        $('<div/>').addClass("back").append(
+          $('<div/>').addClass("info")
+            .append($('<div/>').text(this.caption))
+            .append(
+              $('<div/>').append($('<a/>').text(this.url).attr({ href: this.url, target: "_blank" }))
+            )
+            .append($('<div/>').text(this.created + ' ' + this.username))
+            .append($('<div/>').text(this.location))
+            .append($('<div/>').text(this.tags))
+            .append($('<div/>').text(this.likes))
+        )
+      )
+    );
+    $('#content').append(this.element);
+  };
+
+  /**
+   * Add tile flip animation on click
+   * @public
+   */
+  Tile.prototype.bindHandlers = function () {
+    $(this.element).click(function () {
+      $(this).find('.front, .back').addClass('flipped');
+      $(this).one('webkitTransitionEnd transitionend', function (event) {
+        $(this).one('click', function () {
+          $(this).find('.front, .back').removeClass('flipped');
+        });
+      });
+    });
+  };
+
   // public functions to expose to main and unit tests
-  App = {
+  var App = {
     fetchPhotos: fetchPhotos,
     filterTags: filterTags,
     selectedTags: selectedTags
