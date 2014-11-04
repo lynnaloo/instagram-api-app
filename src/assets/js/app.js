@@ -55,7 +55,7 @@
     defers.push(new $.Deferred().resolve());
 
     // hide the more-images link before refresh
-    $('.more-images').hide();
+    $('#more-images').hide();
     // show loading image
     $('#spinner').show();
 
@@ -77,7 +77,7 @@
       _.each(sorted, createPhotoTile);
 
       var showMore = _.any(_.pick(pagination, getSelectedTags()));
-      $('.more-images').toggle(showMore);
+      $('#more-images').toggle(showMore);
       // animate photos once they're all loaded
       $('.tile').fadeTo('slow', 1);
       $('#spinner').hide();

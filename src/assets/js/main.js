@@ -37,7 +37,7 @@ require(['jquery', 'lodash', 'app'], function ($, _, app) {
       return false;
     });
     // when the more images link is clicked, fetch again with the next_max_id
-    $('.more-images').click(function () {
+    $('#more-images').click(function () {
       app.fetchPhotos(null, true);
       return false;
     });
