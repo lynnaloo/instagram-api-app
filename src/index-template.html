@@ -23,7 +23,6 @@
    	  // Set the base url to use for the api
       var baseApiUrl = "{{base_api_url}}";
     </script>
-
   </head>
 
   <body>
@@ -48,11 +47,12 @@
           <div class='image save'></div>
         </div>
         <div id='content'></div>
-        <div id='footer'>
-          <a class='more-images' href='#'>More Images ></a>
+        <span id='footer'>
+          <a class='more-images' href='#'>Load more...</a>
         </div>
       </div>
     </div>
+
     <!-- Handlebars template for picking between dynamic vs pre-compiled js -->
     {{#if use_appjs}}
       <script src="assets/js/libs/requirejs/require.js"></script>

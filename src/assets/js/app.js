@@ -33,6 +33,11 @@
   }
 
   function fetchPhotos(tag, next) {
+    // empty the photo stream before fetching new photos
+    if (!next) {
+      $('#content').empty();
+    }
+
     filterTags(tag);
     var defers = _.compact(_.map(getSelectedTags(), function (key) {
       var url = (next ? pagination : tags)[key];
@@ -46,15 +51,17 @@
         });
       }
     }));
+    // add a placehold deffered here so result is an array of arrays
     defers.push(new $.Deferred().resolve());
-    // empty the photo stream before fetching new photos
-    $('#content').empty();
+
+    // hide the more-images link before refresh
     $('.more-images').hide();
     // show loading image
     $('#spinner').show();
+
     $.when.apply($, defers).then(function () {
       var sorted = _.chain(arguments)
-        .initial()
+        .initial() // get all but the final placehold deferred
         .pluck('0')
         .map(function (item, i) {
           pagination[this[i].tag] = item.pagination.next_url;
@@ -112,19 +119,18 @@
 
   Tile.prototype.render = function () {
     // add photo tile to the content section
-    // TODO make quotes consistent (double -> single)
-    this.element = $('<div/>').addClass("tile-container").append(
-      $('<div/>').addClass("tile")
+    this.element = $('<div/>').addClass('tile-container').append(
+      $('<div/>').addClass('tile')
       .append(
-        $('<div/>').addClass("front")
-          .append($('<img/>').attr({ src: this.photo, title: "image", alt: this.url }))
+        $('<div/>').addClass('front')
+          .append($('<img/>').attr({ src: this.photo, title: 'image', alt: this.url }))
       )
       .append(
-        $('<div/>').addClass("back").append(
-          $('<div/>').addClass("info")
+        $('<div/>').addClass('back').append(
+          $('<div/>').addClass('info')
             .append($('<div/>').text(this.caption))
             .append(
-              $('<div/>').append($('<a/>').text(this.url).attr({ href: this.url, target: "_blank" }))
+              $('<div/>').append($('<a/>').text(this.url).attr({ href: this.url, target: '_blank' }))
             )
             .append($('<div/>').text(this.created + ' ' + this.username))
             .append($('<div/>').text(this.location))
@@ -154,8 +160,7 @@
   // public functions to expose to main and unit tests
   var App = {
     fetchPhotos: fetchPhotos,
-    filterTags: filterTags,
-    selectedTags: selectedTags
+    getSelectedTags: getSelectedTags
   };
 
   // prepare module

@@ -21,12 +21,14 @@ $address: rgba(255, 254, 254, 0.3);
 $red: rgb(234, 46, 73);
 $white: #fff;
 $black: #000;
-$link: #2a5db0;
+$link: #3f729b;
 
 /* Font Sizes */
 $small: 12px;
 $medium: 16px;
-$large: 54px;
+$large: 24px;
+$header: 54px;
+$weight: 500;
 
 html, body {
   height: 100%;
@@ -45,7 +47,7 @@ a {
     text-decoration: none;
   }
   &:hover {
-    opacity: 0.7;
+    color: lighten($link, 10%);
   }
 }
 
@@ -89,13 +91,16 @@ a {
       margin-left: 22px;
       margin-top: 122px;
       .option {
+        &:hover {
+          opacity: 0.7;
+        }
         margin-bottom: 30px;
         padding-left: $default-margin;
         line-height: 30px;
         font-family: $font-stack;
         color: $white;
         font-size: $medium;
-        font-weight: 500;
+        font-weight: $weight;
         background: url(../img/check-off.png) no-repeat;
         cursor: pointer;
         &.checked {
@@ -212,11 +217,15 @@ a {
     }
 
     #footer {
-      height: $default-height;
+      width: 100%;
       .more-images {
-        display: none;
-        margin-right: $default-margin;
-        float: right;
+        display: block;
+        padding: 20px 0;
+        text-align: center;
+        line-height: $default-height;
+        font-family: $font-stack;
+        font-size: $large;
+        font-weight: $weight;
       }
     }
   }
