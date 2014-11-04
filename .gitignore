@@ -14,3 +14,4 @@ app.min.js
 build
 org.eclipse.*
 src/index.html
+npm-debug.log
