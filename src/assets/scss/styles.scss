@@ -3,13 +3,13 @@
 
 /* Layout */
 $sidebar-width: 260px;
-$tile-width: $sidebar-width;
-$tile-height: $tile-width;
+$tile-width: 260px;
+$tile-height: 260px;
 
-/* Margins */
-$default-margin: 40px;
-$default-height: $default-margin;
-$default-width: $default-height;
+/* Margins/Padding */
+$margin: 40px;
+$height: 40px;
+$width: 40px;
 
 /* Fonts */
 $font-stack: 'Roboto', sans-serif;
@@ -19,9 +19,9 @@ $background: rgb(40, 40, 46);
 $sidebar: rgb(44, 62, 80);
 $address: rgba(255, 254, 254, 0.3);
 $red: rgb(234, 46, 73);
-$white: #fff;
-$black: #000;
-$link: #3f729b;
+$white: rgb(255, 255, 255);
+$black: rgb(0, 0, 0);
+$link: rgb(63, 114, 155);
 
 /* Font Sizes */
 $small: 12px;
@@ -95,7 +95,7 @@ a {
           opacity: 0.7;
         }
         margin-bottom: 30px;
-        padding-left: $default-margin;
+        padding-left: $margin;
         line-height: 30px;
         font-family: $font-stack;
         color: $white;
@@ -110,13 +110,13 @@ a {
     }
     .address {
       position: absolute;
-      margin-left: $default-margin;
-      bottom: $default-margin;
-      height: $default-height;
+      margin-left: $margin;
+      bottom: $margin;
+      height: $height;
       color: $address;
       font-family: $font-stack;
       font-size: $small;
-      font-weight: 500;
+      font-weight: $weight;
       line-height: 0.5;
     }
   }
@@ -132,10 +132,10 @@ a {
       width: 100%;
       .image {
         display: inline-block;
-        height: $default-height;
-        width: $default-width;
-        margin-top: $default-margin;
-        margin-left: $default-margin;
+        height: $height;
+        width: $width;
+        margin-top: $margin;
+        margin-left: $margin;
         &.logo {
           background: url(../img/logo.png) no-repeat;
           width: 312px;
@@ -157,7 +157,7 @@ a {
         &.save {
           float: right;
           background: url(../img/save.png) no-repeat;
-          margin-right: $default-margin;
+          margin-right: $margin;
           &:hover {
             opacity: 0.5;
             -webkit-transition: -webkit-transform 1s ease-in;
@@ -222,7 +222,7 @@ a {
         display: block;
         padding: 20px 0;
         text-align: center;
-        line-height: $default-height;
+        line-height: $height;
         font-family: $font-stack;
         font-size: $large;
         font-weight: $weight;

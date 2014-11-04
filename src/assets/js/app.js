@@ -1,13 +1,13 @@
 (function () {
   var baseUrl = 'https://api.instagram.com/v1/',
     config = {
-      id: '23299063',
+      userId: '23299063',
       client: '4c1191c3ee9040b9968f432f2c977964'
     },
     tags = {
       'norfolkva': baseUrl + 'tags/norfolkva/media/recent?client_id=' + config.client,
       'fieldguidenfk': baseUrl + 'tags/fieldguidenfk/media/recent?client_id=' + config.client,
-      'growinteractive': baseUrl + 'users/' + config.id + '/media/recent?client_id=' + config.client
+      'growinteractive': baseUrl + 'users/' + config.userId + '/media/recent?client_id=' + config.client
     },
     pagination = {
       'norfolkva': null,
